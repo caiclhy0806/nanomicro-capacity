@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>纳微科技（688690）色谱填料/层析介质产能全景图 2021–2028</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#1a2233; --sub:#5a6478; --line:#e3e7ee;
+    --red:#c0392b; --green:#1e8449; --blue:#1a5276; --blue-bg:#eaf2f8;
+    --warn-bg:#fdf3e7; --warn-line:#e67e22; --grey:#9aa3b2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;line-height:1.65;padding:24px}
+  .wrap{max-width:1280px;margin:0 auto}
+  .verbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .ver{background:var(--blue);color:#fff;font-size:12px;font-weight:600;padding:2px 10px;border-radius:4px}
+  .date{color:var(--sub);font-size:12px}
+  h1{font-size:22px;margin-bottom:4px}
+  .sub{color:var(--sub);font-size:13px;margin-bottom:20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin-bottom:18px}
+  .card h2{font-size:16px;margin-bottom:12px;padding-left:9px;border-left:4px solid var(--blue)}
+  .tldr{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px}
+  .tldr .item{background:var(--blue-bg);border-radius:8px;padding:12px 14px}
+  .tldr .k{font-size:12px;color:var(--sub)}
+  .tldr .v{font-size:17px;font-weight:700;margin-top:2px}
+  .tldr .d{font-size:12px;color:var(--sub);margin-top:2px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px}
+  th{background:#eef1f6;text-align:left;padding:7px 9px;border:1px solid var(--line);font-weight:600}
+  td{padding:7px 9px;border:1px solid var(--line);vertical-align:top}
+  tr:nth-child(even) td{background:#fafbfd}
+  .fac{font-weight:700;background:#f0f4fa !important;white-space:nowrap}
+  .cat{font-weight:700;background:#f7f9fc !important;white-space:nowrap;vertical-align:middle}
+  .yr{font-weight:600;white-space:nowrap;text-align:center;color:var(--blue)}
+  .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .na{color:var(--grey)}
+  .warn{color:var(--warn-line);font-weight:700}
+  .up{color:var(--red);font-weight:600}
+  .down{color:var(--green);font-weight:600}
+  /* 访问密钥门禁 */
+  #gate{position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#eef2f7 0%,#dfe7f1 100%);display:flex;align-items:center;justify-content:center;padding:20px}
+  #gate .box{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 40px rgba(26,34,51,.14);padding:36px 34px;width:100%;max-width:400px;text-align:center}
+  #gate .lock{font-size:40px;line-height:1}
+  #gate h3{font-size:18px;margin:14px 0 6px}
+  #gate p{font-size:13px;color:var(--sub);margin-bottom:18px}
+  #gate input{width:100%;box-sizing:border-box;padding:11px 14px;font-size:15px;border:1.5px solid #c9d2de;border-radius:8px;outline:none;text-align:center;letter-spacing:2px;margin-bottom:12px}
+  #gate input:focus{border-color:var(--blue)}
+  #gate button{width:100%;padding:11px;font-size:15px;font-weight:600;color:#fff;background:var(--blue);border:none;border-radius:8px;cursor:pointer}
+  #gate button:hover{background:#154360}
+  #gate .err{display:none;color:var(--red);font-size:13px;margin-bottom:10px}
+  #gate .foot2{font-size:11.5px;color:var(--grey);margin-top:16px}
+  #lock-btn{margin-left:auto;padding:3px 12px;font-size:12px;font-weight:600;color:var(--blue);background:#fff;border:1px solid var(--blue);border-radius:5px;cursor:pointer}
+  #lock-btn:hover{background:var(--blue-bg)}
+  /* 宽矩阵：年份为横轴第一行，工厂为年份项下竖列 */
+  .mx{min-width:3350px}
+  .mx th.yg{text-align:center;font-size:13px;font-weight:700;background:#dfe7f1;color:var(--blue)}
+  .mx th.fc{font-size:10.5px;text-align:center;padding:5px 4px;min-width:64px;white-space:normal;line-height:1.3}
+  .mx td{font-size:11px;padding:5px 5px;text-align:center;min-width:64px;line-height:1.35}
+  .mx td.cat{font-size:12px;text-align:left;vertical-align:middle}
+  .mx td .src{font-size:10px;line-height:1.25}
+  .mx thead tr:nth-child(2) th:nth-child(5n+2){border-left:2px solid #8fa3bd}
+  .mx tbody td:nth-child(5n+2){border-left:2px solid #8fa3bd}
+  .mx tbody tr:nth-child(even) td{background:#fafbfd}
+  .note{background:var(--warn-bg);border:1px solid #f0c9a0;border-radius:8px;padding:12px 14px;font-size:13px;margin-top:10px}
+  .note b{color:var(--warn-line)}
+  .src{font-size:12px;color:var(--sub)}
+  .src a{color:var(--blue);text-decoration:none;word-break:break-all}
+  .pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:3px;font-weight:600;white-space:nowrap}
+  .p-run{background:#e8f0e9;color:var(--green)}
+  .p-build{background:#fdf3e7;color:var(--warn-line)}
+  .p-plan{background:#eef1f6;color:var(--grey)}
+  .p-tbd{background:#fdecea;color:var(--red)}
+  ol.src-list{padding-left:20px;font-size:12.5px;color:var(--sub)}
+  ol.src-list li{margin-bottom:6px}
+  .foot{font-size:12px;color:var(--sub);margin-top:6px}
+  .chart{width:100%;height:330px}
+  .tl{display:grid;grid-template-columns:150px 1fr;gap:8px 12px;align-items:center;margin-top:10px;font-size:12px}
+  .tl .name{font-weight:600;text-align:right}
+  .tl .bar{position:relative;height:26px;background:#f0f2f6;border-radius:4px;overflow:hidden}
+  .tl .seg{position:absolute;top:0;bottom:0;border-radius:3px;color:#fff;font-size:10.5px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden}
+  .tl .axis{display:grid;grid-template-columns:150px 1fr;gap:8px 12px;margin-top:4px}
+  .tl .axis .yrs{display:grid;grid-template-columns:repeat(8,1fr);font-size:10.5px;color:var(--sub);text-align:center}
+  .tl .yrs{display:grid;grid-template-columns:repeat(8,1fr);font-size:11.5px;color:var(--ink);text-align:center;font-weight:700;margin-bottom:2px}
+  .tl .yrs span{border-left:1px dashed #c9d2de;padding:2px 0}
+  .tl .yrs span:first-child{border-left:none}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--sub);margin-top:8px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+  @media (max-width:900px){ .tl{grid-template-columns:110px 1fr} .tl .axis{grid-template-columns:110px 1fr} }
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="box">
+    <div class="lock">🔐</div>
+    <h3>本页面受访问密钥保护</h3>
+    <p>纳微科技（688690）色谱填料/层析介质产能全景图<br>请输入访问密钥以解锁查看</p>
+    <div class="err" id="gate-err">⚠️ 密钥不正确，请重新输入</div>
+    <input id="gate-pwd" type="password" placeholder="请输入访问密钥" autocomplete="off">
+    <button id="gate-btn" type="button">解 锁</button>
+    <div class="foot2">与 fx-tracker 等公开站点一致的访问控制方案<br>解锁状态仅保存在当前浏览器会话中</div>
+  </div>
+</div>
+<div class="wrap">
+
+  <div class="verbar">
+    <span class="ver">ver.010</span>
+    <span class="date">更新日期：2026-10-23 ｜ 修订：新增访问密钥保护（与 fx-tracker 等公开站点一致的 casual visitor gating 方案，密钥 cl2026），正确输入后解锁查看，可随时重新锁定｜历史版本：REV001–REV009 均保留，支持回滚</span>
+    <button id="lock-btn" type="button">🔒 锁定</button>
+  </div>
+
+  <h1>纳微科技（688690.SH）色谱填料 / 层析介质产能全景图（2021–2028）</h1>
+  <div class="sub">数据来源：公司定期报告、募集说明书、问询函回复及政府环评公示。单位按原始口径分列：<b>「升」= 苏州/常熟设计产能口径；「吨」= 南通/浙江募投及环评口径；未做换算</b>。推导值以 ⚠️ 标注。</div>
+
+  <!-- 一、全景图 -->
+  <div class="card">
+    <h2>一、产能全景图（总览）</h2>
+    <div class="tldr">
+      <div class="item"><div class="k">2021 年设计产能</div><div class="v">122,800 升/年</div><div class="d">较 2020 年 41,500 升 +196%（常熟产线当年投产）；利用率 56.31%（可转债募集说明书，2023-02）</div></div>
+      <div class="item"><div class="k">2022 年设计产能</div><div class="v">122,800 升/年</div><div class="d">问询函回复口径：苏州+常熟两基地；1–9 月 92,100 升，利用率 72.08%</div></div>
+      <div class="item"><div class="k">生产基地（填料/介质）</div><div class="v">5 个</div><div class="d">苏州园区 ｜ 常熟 ｜ 南通如东 ｜ 南通中试 ｜ 浙江平湖</div></div>
+      <div class="item"><div class="k">2025 年产量 / 销售额</div><div class="v">175,132 升 / 5.52 亿元</div><div class="d">产量 +58.5%；收入 +22.57%（2025 年年度报告）</div></div>
+      <div class="item"><div class="k">2026 H1 销售额</div><div class="v">3.74 亿元</div><div class="d">37,376.51 万元，同比 +56.84%（2026 年半年度报告）</div></div>
+      <div class="item"><div class="k">最大在建项目</div><div class="v">南通如东 6.58 亿元</div><div class="d">2026 H1 开工，建设期 36 个月，2028 年建成（定增募集说明书，2026-09）</div></div>
+    </div>
+    <div style="height:16px"></div>
+    <div id="chart1" class="chart"></div>
+    <div class="src">图 1：2021–2025 生产量 / 销售量 / 期末库存量（升，来源：各年年度报告「产销量情况分析表」）。</div>
+    <div style="height:16px"></div>
+    <div id="chart2" class="chart"></div>
+    <div class="src">图 2：色谱填料/层析介质销售额（万元，来源：各年年度报告及 2026 年半年度报告管理层讨论与分析）。2026 为<b>半年度</b>数据，不可与全年柱直接比较高度。</div>
+    <div style="height:16px"></div>
+    <div class="legend">
+      <span><i style="background:#1e8449"></i>运行中</span>
+      <span><i style="background:#e67e22"></i>在建/试生产</span>
+      <span><i style="background:#9aa3b2"></i>拟建/前期</span>
+      <span><i style="background:#c0392b"></i>状态待核实</span>
+    </div>
+    <div class="tl">
+      <div class="name"></div>
+      <div class="yrs"><span>2021</span><span>2022</span><span>2023</span><span>2024</span><span>2025</span><span>2026</span><span>2027</span><span>2028</span></div>
+      <div class="name">苏州工业园区基地</div>
+      <div class="bar"><div class="seg" style="left:0%;width:100%;background:#1e8449">持续运行 · 122,800 升/年（问询函回复，苏州+常熟两基地）</div></div>
+      <div class="name">常熟基地</div>
+      <div class="bar"><div class="seg" style="left:0%;width:12.5%;background:#5dade2">投产</div><div class="seg" style="left:12.5%;width:25%;background:#1e8449">持续生产</div><div class="seg" style="left:37.5%;width:12.5%;background:#e67e22">技改投产</div><div class="seg" style="left:50%;width:12.5%;background:#1e8449">正式生产</div><div class="seg" style="left:62.5%;width:37.5%;background:#2e86c1">配套扩建（2026 中开工）</div></div>
+      <div class="name">南通如东基地</div>
+      <div class="bar"><div class="seg" style="left:37.5%;width:12.5%;background:#9aa3b2">子公司成立</div><div class="seg" style="left:50%;width:12.5%;background:#5dade2">前期筹备</div><div class="seg" style="left:62.5%;width:12.5%;background:#e67e22">开工</div><div class="seg" style="left:75%;width:12.5%;background:#e67e22">建设期36个月</div><div class="seg" style="left:87.5%;width:12.5%;background:#1e8449">建成投产</div></div>
+      <div class="name">南通中试基地</div>
+      <div class="bar"><div class="seg" style="left:50%;width:12.5%;background:#9aa3b2">项目入驻</div><div class="seg" style="left:62.5%;width:37.5%;background:#5dade2">试生产/中试放大</div></div>
+      <div class="name">浙江平湖基地</div>
+      <div class="bar"><div class="seg" style="left:12.5%;width:12.5%;background:#c0392b">拟建 600 吨</div><div class="seg" style="left:25%;width:75%;background:#e8eaee;color:#9aa3b2">方案调整 / 未再披露（待核实）</div></div>
+      <div class="axis"><div></div><div class="yrs"><span>2021</span><span>2022</span><span>2023</span><span>2024</span><span>2025</span><span>2026</span><span>2027</span><span>2028</span></div></div>
+    </div>
+  </div>
+
+  <!-- 二、按年总表 -->
+  <div class="card">
+    <h2>二、按年产能与销售额总表（2021–2027）</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:64px">年份</th>
+          <th style="width:200px">设计产能（数据来源见来源列）</th>
+          <th style="width:200px">色谱填料/层析介质销售额</th>
+          <th style="width:150px">产量（升）</th>
+          <th>口径与说明（含参考值）</th>
+          <th style="width:240px">来源</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>2021</b></td>
+          <td class="num"><b>122,800 升/年</b><br><span class="src">（利用率 56.31%）</span></td>
+          <td class="num">34,873.36 万元<br><span class="src">（≈3.49 亿元）</span></td>
+          <td class="num">69,149.33<br><span class="src">（销量 41,309.83；期末库存 52,906.69）</span></td>
+          <td>常熟纳微产线当年投产，产能由 2020 年 41,500 升增至 12.28 万升（+196%），部分时间处于试生产阶段，导致当年利用率骤降至 56.31%；2022 年 1-9 月常熟产线调试完毕后利用率回升至 72.08%（⚠️ 参考值口径：产量/销量/库存量为 2021 年年度报告「产销量情况分析表」原生披露）</td>
+          <td class="src">2021 年年度报告（2022-03-11，p.11/p.30）<a href="https://pdf.dfcfw.com/pdf/H2_AN202203101551783989_1.pdf" target="_blank">PDF</a>；《可转债募集说明书（申报稿）（修订稿）》（2023-02，中财网转载）<a href="https://cfi.cn/p20230203003273.html" target="_blank">链接</a>；再融资问询回复（2023-05，新浪财经转载）<a href="https://finance.sina.com.cn/money/fund/fundzmt/2023-05-11/doc-imytkvku9936266.shtml" target="_blank">链接</a></td>
+        </tr>
+        <tr>
+          <td><b>2022</b></td>
+          <td class="num"><b>122,800 升/年</b><br><span class="src">（问询函回复，苏州+常熟两基地）</span></td>
+          <td class="num">45,189.60 万元<br><span class="src up">+29.58%</span></td>
+          <td class="num">101,111.57<br><span class="src">（销量 78,148.26；期末库存 74,018.78）</span></td>
+          <td>问询函回复（2023-01-16）工厂级产能表：纳微科技现有「年产 122,800 升色谱填料与层析介质」——苏州+常熟两基地合计口径；1–9 月产能 92,100 升、利用率 72.08%（⚠️ 参考值：产量/销量/库存量为 2022 年年度报告产销量表原生披露）</td>
+          <td class="src">《审核问询函的回复报告》（2023-01-16，p.8-1-9）<a href="https://pdf.dfcfw.com/pdf/H2_AN202301151582022363_1.pdf" target="_blank">PDF</a>；2022 年年度报告（2023-04-26，p.33/p.34）<a href="https://stockn.xueqiu.com/SH688690/20230425067068.pdf" target="_blank">PDF</a>；募集说明书 2022 年度数据更新版（2023-05）<a href="https://cfi.cn/p20230512003486.html" target="_blank">链接</a></td>
+        </tr>
+        <tr>
+          <td><b>2023</b></td>
+          <td class="na">未披露<br><span class="src">（常熟 +50 吨/年软胶投产）</span></td>
+          <td class="num">40,887.02 万元<br><span class="src down">-9.52%</span></td>
+          <td class="num">109,114.35<br><span class="src">（销量 68,732.11；期末库存 109,991.58）</span></td>
+          <td>2023 年年报起仅披露产销量，不再计算产能/利用率。当年常熟「淘汰 1000 吨/年光扩散粒子、减量替换生产 <b>40 吨/年琼脂糖微球 + 10 吨/年葡聚糖微球</b>层析介质」技改项目通过验收并顺利投产（《前次募集资金使用情况报告》：该项目 2023 年投产，截至 2025 年末累计产能利用率 46.23%）。⚠️ 参考值：全年实际产量 109,114 升（2023 年年度报告产销量表）</td>
+          <td class="src">2023 年年度报告（2024-04-25，p.15/p.37）<a href="https://static.cninfo.com.cn/finalpage/2024-04-25/1219794676.PDF" target="_blank">PDF</a>；《前次募集资金使用情况报告》（2026-04）<a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12093317&stockid=688690" target="_blank">链接</a></td>
+        </tr>
+        <tr>
+          <td><b>2024</b></td>
+          <td class="na">未披露</td>
+          <td class="num">45,058.28 万元<br><span class="src up">+10.20%</span></td>
+          <td class="num">110,526.86<br><span class="src">（销量 96,616.95；期末库存 118,272.81）</span></td>
+          <td>年报仅披露产销量；常熟软胶技改项目转入正式生产，并推出 NW Rose Ni FF / Q FF / SP HP 等软胶新品。⚠️ 参考值：产量 110,527 升（+1.3%）、销量 96,617 升（+40.6%）、库存 118,273 升（+7.5%）（2024 年年度报告产销量表）</td>
+          <td class="src">2024 年年度报告（2025-04-24，p.14/p.41）<a href="https://pdf.dfcfw.com/pdf/H2_AN202504241661689824_1.pdf" target="_blank">PDF</a></td>
+        </tr>
+        <tr>
+          <td><b>2025</b></td>
+          <td class="na">未披露</td>
+          <td class="num">55,200 万元<br><span class="src up">+22.57%</span></td>
+          <td class="num">175,132.38<br><span class="src">（销量 121,568.55；期末库存 166,820.24）</span></td>
+          <td>年报仅披露产销量；公司在投资者互动与调研中表示「现有有效产能能够满足现阶段销售增长需求」。⚠️ 参考值：全年实际产量 175,132 升（+58.5%），已超过 2022 年披露的设计产能（12.28 万升）约 43%（2025 年年度报告产销量表）</td>
+          <td class="src">2025 年年度报告（2026-04-16，p.23/p.43）<a href="https://pdf.dfcfw.com/pdf/H2_AN202604151821241213_1.pdf" target="_blank">PDF</a></td>
+        </tr>
+        <tr>
+          <td><b>2026</b><br><span class="src">（半年度）</span></td>
+          <td class="na">无官方新增产能数字<br><span class="src">（H1 产销量未披露）</span></td>
+          <td class="num">37,376.51 万元<br><span class="src up">+56.84%</span></td>
+          <td class="num na">未披露（H1）</td>
+          <td>⚠️ 半年度数据（1–6 月）。2026 年起该业务板块更名为「<b>药物合成和分离纯化用微球产品</b>」（原色谱填料和层析介质）。南通如东项目 2026 上半年开工，<b>总建设期 36 个月、分期实施</b>（T+36 项目验收）；常熟配套项目（15 亩地仓储/废水处理）预计 2026 年中开工；2026 年产能依靠苏州+常熟现有装置挖潜与技改；公司称「产能问题不会成为公司现阶段发展的制约因素」。全年数据待 2027-04 年报披露</td>
+          <td class="src">2026 年半年度报告（2026-08-27，p.9/p.18/p.24）<a href="https://pdf.dfcfw.com/pdf/H2_AN202608261828484080_1.pdf" target="_blank">PDF</a>；《向特定对象发行股票募集说明书（申报稿）》（2026-09-21，p.57）<a href="https://pdf.dfcfw.com/pdf/H2_AN202609211829727021_1.pdf" target="_blank">PDF</a>；2025 年报「提质增效重回报」方案（2026-04）<a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?CompanyCode=81238089&id=12094230" target="_blank">链接</a>；投资者关系活动记录表 2026-001（2026-04）<a href="http://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-4/2026-04-20/12115798.PDF" target="_blank">PDF</a></td>
+        </tr>
+        <tr>
+          <td><b>2027</b></td>
+          <td class="na">无官方新增产能数字</td>
+          <td class="na">未披露（规划中）</td>
+          <td class="num na">—</td>
+          <td>公司口径：南通项目建设周期预计至 <b>2028 年</b>建成投产，未来主要产能落地南通（占地约 140–143 亩，为常熟 55 亩的约 2.5 倍）。2027 年仍以现有基地为主。⚠️ 第三方（同花顺投顾平台）假设 2027 下半年开始贡献部分产能、主产能 2028 年释放——与公司「建设周期至 2028 年」的官方表述存在出入，以公司口径为准</td>
+          <td class="src">《向特定对象发行股票募集说明书（申报稿）》（2026-09-21，p.57）<a href="https://pdf.dfcfw.com/pdf/H2_AN202609211829727021_1.pdf" target="_blank">PDF</a>；投资者关系活动记录表（2026-04 及 2026 半年度）<a href="https://www.cnfin.com/announ/detail/index.html?dannoun=stibdetail&id=841264554153" target="_blank">链接</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 三、REV001 产销量数据 -->
+  <div class="card">
+    <h2>三、官方披露产销量数据（2021–2026，色谱填料和层析介质产品）</h2>
+    <table>
+      <thead>
+        <tr><th>年份</th><th>生产量（升）</th><th>生产量同比</th><th>销售量（升）</th><th>销售量同比</th><th>期末库存量（升）</th><th>库存量同比</th><th>色谱填料/层析介质销售额</th><th>收入同比</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>2021</b></td><td class="num">69,149.33</td><td class="num up">+101.39%</td><td class="num">41,309.83</td><td class="num up">+48.78%</td><td class="num">52,906.69</td><td class="num up">+101.00%</td><td class="num">34,873.36 万元</td><td class="num na">—</td></tr>
+        <tr><td><b>2022</b></td><td class="num">101,111.57</td><td class="num up">+46.22%</td><td class="num">78,148.26</td><td class="num up">+89.18%</td><td class="num">74,018.78</td><td class="num up">+39.90%</td><td class="num">45,189.60 万元</td><td class="num up">+29.58%</td></tr>
+        <tr><td><b>2023</b></td><td class="num">109,114.35</td><td class="num up">+7.91%</td><td class="num">68,732.11</td><td class="num down">-12.05%</td><td class="num">109,991.58</td><td class="num up">+48.60%</td><td class="num">40,887.02 万元</td><td class="num down">-9.52%</td></tr>
+        <tr><td><b>2024</b></td><td class="num">110,526.86</td><td class="num up">+1.30%</td><td class="num">96,616.95</td><td class="num up">+40.60%</td><td class="num">118,272.81</td><td class="num up">+7.50%</td><td class="num">45,058.28 万元</td><td class="num up">+10.20%</td></tr>
+        <tr><td><b>2025</b></td><td class="num">175,132.38</td><td class="num up">+58.50%</td><td class="num">121,568.55</td><td class="num up">+25.80%</td><td class="num">166,820.24</td><td class="num up">+41.00%</td><td class="num">55,200 万元</td><td class="num up">+22.57%</td></tr>
+        <tr><td><b>2026 H1</b><br><span class="src">（半年度）</span></td><td class="num na">未披露</td><td class="num na">—</td><td class="num na">未披露</td><td class="num na">—</td><td class="num na">未披露</td><td class="num na">—</td><td class="num">37,376.51 万元</td><td class="num up">+56.84%</td></tr>
+      </tbody>
+    </table>
+    <div class="src" style="margin-top:8px">来源：各期定期报告「产销量情况分析表」及管理层讨论与分析（2021 年报 p.11/p.30；2022 年报 p.33/p.34；2023 年报 p.37；2024 年报 p.41；2025 年报 p.43；2026 半年报 p.9/p.18）。红=同比增长，绿=同比下降（A 股惯例）。2026 半年报不披露产销量表，故 H1 产销量留空。</div>
+    <div style="height:16px"></div>
+    <table>
+      <thead><tr><th>2026 H1 细分（2026 年半年度报告口径）</th><th>收入</th><th>同比</th></tr></thead>
+      <tbody>
+        <tr><td>药物合成和分离纯化用微球产品（合计）</td><td class="num">37,376.51 万元</td><td class="num up">+56.84%</td></tr>
+        <tr><td>├ 大分子：抗体(含ADC)/重组蛋白/疫苗/血制品层析介质</td><td class="num">约 1.41 亿元</td><td class="num up">约 +42%</td></tr>
+        <tr><td>├ 中小分子：胰岛素/多肽/小核酸/抗生素色谱填料</td><td class="num">约 1.97 亿元</td><td class="num up">约 +55%</td></tr>
+        <tr><td>│&nbsp;&nbsp;└ 其中小核酸药物填料</td><td class="num">约 0.67 亿元</td><td class="num up">约 +170%</td></tr>
+      </tbody>
+    </table>
+    <div class="src" style="margin-top:6px">来源：2026 年半年度报告（2026-08-27，p.18）。</div>
+  </div>
+
+  <!-- 四、矩阵（年份为横轴第一行，工厂为年份项下竖列） -->
+  <div class="card">
+    <h2>四、产能矩阵：产品类别（纵轴）× 年份（横轴第一行）× 生产基地（年份项下竖列）</h2>
+    <div class="src" style="margin-bottom:8px">横轴第一行为<b>年份</b>（2021–2028），每个年份项下将 5 个生产基地分别竖列（苏州园区基地 / 常熟基地 / 南通如东基地 / 南通洋口港中试基地 / 浙江平湖基地）；纵轴为<b>产品类别</b>。单位按原始口径分列（升 / 吨），未做换算。表格较宽，可左右滑动查看。</div>
+    <div style="overflow-x:auto">
+    <table class="mx">
+      <thead>
+        <tr>
+          <th rowspan="2" style="min-width:120px">产品类别（纵轴）</th>
+          <th colspan="5" class="yg">2021</th><th colspan="5" class="yg">2022</th><th colspan="5" class="yg">2023</th><th colspan="5" class="yg">2024</th><th colspan="5" class="yg">2025</th><th colspan="5" class="yg">2026</th><th colspan="5" class="yg">2027</th><th colspan="5" class="yg">2028</th>
+        </tr>
+        <tr>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+          <th class="fc">苏州<br>园区基地</th><th class="fc">常熟<br>基地</th><th class="fc">南通<br>如东基地</th><th class="fc">南通洋口港<br>中试基地</th><th class="fc">浙江<br>平湖基地</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="cat">色谱填料<br>（硅胶/聚合物，合计口径）</td>
+          <td><b>122,800<br>升/年</b>①<br><span class="src">利用率 56.31%</span></td>
+          <td>产线投产<br><span class="src">并入合并产能</span></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td><b>122,800<br>升/年</b>②</td>
+          <td>持续生产<br><span class="src">1–9 月利用率 72.08%</span></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">未披露</td><td class="na">未单独披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">未披露</td><td class="na">未单独披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">未披露</td><td class="na">未单独披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">未披露</td><td class="na">未单独披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">未披露</td><td class="na">未单独披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">未披露</td><td class="na">未单独披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="cat">软胶层析介质<br>（琼脂糖/葡聚糖微球）</td>
+          <td class="na">—</td>
+          <td>产线投产<br><span class="src">试生产阶段</span></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td>
+          <td>持续生产</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td>
+          <td><b>40+10<br>吨/年</b><br><span class="src">技改投产</span></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td>
+          <td><b>50 吨/年</b><br><span class="src">转入正式生产</span></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td>
+          <td><b>50 吨/年</b><br><span class="src">累计利用率 46.23%</span></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td>
+          <td><b>50 吨/年</b><br><span class="src">15 亩配套预计年中开工</span></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td>
+          <td><b>50 吨/年</b></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td>
+          <td><b>50 吨/年</b></td>
+          <td><b>45 吨/年</b><br><span class="src">软胶基球外售（装置 167 吨/年，122 吨为中间品）</span></td><td class="na">—</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="cat">生物层析介质<br>（Ⅰ/Ⅱ）</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">拟建<br>600 吨/年</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">方案调整</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">未再披露</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">未再披露</td>
+          <td class="na">—</td><td class="na">—</td><td>项目开工<br><span class="src">建设期 36 个月</span></td><td class="na">—</td><td class="warn">未再披露</td>
+          <td class="na">—</td><td class="na">—</td><td>建设中</td><td class="na">—</td><td class="warn">待核实</td>
+          <td class="na">—</td><td class="na">—</td><td><b>Ⅰ 155 + Ⅱ 150<br>吨/年</b><br><span class="src">合计 305 吨/年</span></td><td class="na">—</td><td class="warn">待核实</td>
+        </tr>
+        <tr>
+          <td class="cat">生物合成介质<br>（多肽固相合成载体）</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td>放大项目<br>入驻</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td>建设中</td><td><b>试生产</b><br><span class="src">未披露产能</span></td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td>建设中</td><td class="warn">待披露</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td><b>100<br>吨/年</b></td><td class="warn">待披露</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="cat">疫苗纯化用微球</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="warn">拟建<br>125,000<br>升/年</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="warn">未见披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="warn">未见披露</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="warn">待核实</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="warn">待核实</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="warn">待核实</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="cat">聚合物微球<br>（聚苯乙烯等，外售部分）</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td>建设中</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td>建设中</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td><b>258<br>吨/年</b><br><span class="src">PS 微球 1 外售 157 + 微球 2 外售 101</span></td><td class="na">—</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="cat">酚醛树脂微球<br>（碳微球前驱体）</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td>碳微球放大<br>项目入驻</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td>建设中</td><td>中试放大</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td>建设中</td><td class="warn">待披露</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td><b>100<br>吨/年</b></td><td class="warn">待披露</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="cat">手性药物分离纯化</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">拟建<br>2 吨/年</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">方案调整</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">未再披露</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">未再披露</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">未再披露</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">待核实</td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="na">—</td><td class="warn">待核实</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="note">
+      <b>⚠️ 与第五节对账说明（重要）：</b>如东 2028 列外售合计 = 软胶基球 45 + 生物层析介质 305 + 生物合成介质 100 + 聚合物微球外售 258 + 酚醛树脂微球 100 = <b>808 吨/年</b>，与第五节环评公示装置明细完全一致（此前版本矩阵漏列「软胶基球外售 45 吨/年」导致列合计 763 吨，本版已修正）。另需注意：环评征求意见稿汇总口径中的「聚合物微球 358 吨」= 聚苯乙烯微球外售 258 吨 + 酚醛树脂微球 100 吨（酚醛树脂微球在汇总时归入聚合物微球类）。<b>权威口径判定：以政府环评公示的装置明细（第五节）为准</b>——环评为一手官方文件，矩阵为其编排展示；若两者出现分歧，按环评报告书正文表 3.1.2-1 修正矩阵。<br>
+      <b>⚠️ 矩阵口径说明：</b>① 122,800 升/年为可转债募集说明书（2023-02）披露的<b>现有</b>设计产能。② 122,800 升/年（问询函回复，苏州+常熟两基地）为公司披露的<b>现有</b>设计产能；公司同时说明 2021 年产能跳增系常熟产线投产所致——两处为合并与主体两种视角，官方未按工厂进一步拆分，矩阵中同时保留两种表述。③ 2023 年起年报停止披露设计产能，故 2023–2028 苏州/常熟主品类单元格多为「未披露」。④ 南通各品类为<b>2028 年建成后的设计产能</b>（环评公示），2026–2027 为在建状态。⑤ 单位「升」（苏州/常熟）与「吨」（南通/浙江）为原始口径，未做换算。⑥ 「拟建/待核实」项（常熟 125,000 升疫苗纯化微球、浙江 600 吨+2 吨）均未见后续官方披露。
+    </div>
+  </div>
+
+  <!-- 五、南通扩产规划（REV001 内容） -->
+  <div class="card">
+    <h2>五、2026–2028 扩产规划：南通如东「生物层析介质及功能性微球生产项目」</h2>
+    <table>
+      <thead><tr><th>项目要素</th><th>内容</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr><td>实施主体 / 地点</td><td>南通纳微新材料有限公司（全资子公司，2024-12 成立）／江苏南通如东县洋口化学工业园（东区）</td><td class="src">募集说明书（2026-09）</td></tr>
+        <tr><td>总投资 / 募资</td><td>65,776.60 万元；本次定增拟投 50,000 万元（+补流 21,000 万元，合计募资不超 7.10 亿元）</td><td class="src">募集说明书（2026-09）</td></tr>
+        <tr><td>建设周期</td><td><b>36 个月，分期实施</b>（T+36 项目验收）；公司口径「建设周期预计至 2028 年」建成投产</td><td class="src">募集说明书 p.57；IR 记录</td></tr>
+        <tr><td>审批进度</td><td>已取得如东县数据局备案证；已取得南通市数据局环评批复（通数据审批〔2026〕215 号）；定增申请 2026-09-21 获上交所受理，尚待证监会注册</td><td class="src">募集说明书 p.59；交易所公告</td></tr>
+        <tr><td>效益测算</td><td>税后 IRR 22.46%，税后投资回收期 8.32 年（含建设期）</td><td class="src">募集说明书 p.58</td></tr>
+      </tbody>
+    </table>
+    <div style="height:14px"></div>
+    <table>
+      <thead><tr><th>装置（环评一次公示口径）</th><th>产能（吨/年）</th><th>产品去向</th></tr></thead>
+      <tbody>
+        <tr><td>聚苯乙烯微球 1</td><td class="num">207</td><td>157 外售 + 50 中间品</td></tr>
+        <tr><td>聚苯乙烯微球 2</td><td class="num">101</td><td>全部外售</td></tr>
+        <tr><td>聚苯乙烯微球 3</td><td class="num">325</td><td>全部中间品</td></tr>
+        <tr><td>聚丙烯酸酯微球</td><td class="num">68</td><td>全部中间品</td></tr>
+        <tr><td>软胶基球</td><td class="num">167</td><td>45 外售 + 122 中间品</td></tr>
+        <tr><td><b>生物层析介质 Ⅰ</b></td><td class="num"><b>155</b></td><td>全部外售</td></tr>
+        <tr><td><b>生物层析介质 Ⅱ</b></td><td class="num"><b>150</b></td><td>全部外售</td></tr>
+        <tr><td><b>生物合成介质（多肽固相合成载体）</b></td><td class="num"><b>100</b></td><td>全部外售</td></tr>
+        <tr><td>酚醛树脂微球（碳微球前驱体）</td><td class="num">100</td><td>全部外售</td></tr>
+        <tr><td>发酵液</td><td class="num">196</td><td>全部中间品</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <b>产能合计两个官方口径并存：</b>环评第一次公示/征求意见稿口径为 <b>年产 808 吨</b>（聚合物微球 358 + 软胶基球 45 + 生物层析介质Ⅰ 155 + Ⅱ 150 + 生物合成介质 100，即外售合计）；南通市数据局拟批准公示口径为 <b>年产 662.5 吨</b>（3 套聚合物微球 + 1 套软胶基球 + 3 套生物介质装置）。差异源于统计范围（部分装置调整），引用时建议以「662.5–808 吨/年」区间表述。其中与「色谱填料/层析介质」直接相关的外售品类合计约 <b>808 吨/年</b>。<br>
+      <span class="src">来源：如东县洋口化学工业园环评第一次公示（rudong.gov.cn）；环评报告书征求意见稿公示（eiacloud.com）；南通市数据局拟批准公示（shuju.nantong.gov.cn）。</span>
+    </div>
+    <div class="note" style="background:#eef4fa;border-color:#b8d4e8">
+      <b style="color:var(--blue)">历史项目提示（需留意）：</b>2022 年可转债方案中的「浙江平湖年产 600 吨生物层析介质 + 2 吨手性药物分离纯化项目」（原计划 2026 年逐步释放）在可转债方案调整后<b>已不再是当前主线</b>——2026 年定增募投仅保留南通项目；浙江项目最新进展未在 2025 年报及 2026 年调研中作为产能来源提及，<b>状态需进一步核实</b>。券商研报口径的「截至 2023 年 9 月约 60 吨/年产能」「年产 125 吨疫苗纯化用微球项目 2023 年底投产」<b>未见于公司年报原文，属非官方口径，需核实</b>。
+    </div>
+  </div>
+
+  <!-- 六、工厂总览 -->
+  <div class="card">
+    <h2>六、生产基地总览</h2>
+    <table>
+      <thead><tr><th style="width:170px">工厂/实施主体</th><th style="width:210px">位置</th><th style="width:130px">规模（官方口径）</th><th>状态与定位</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="fac">苏州工业园区基地<br><span class="src">（纳微科技总部）</span></td>
+          <td>苏州工业园区（注册地：百川街 2 号）</td>
+          <td class="num">约 1.2–1.3 万㎡<br><span class="src">（2021 IPO 时点，园区通稿）</span></td>
+          <td><span class="pill p-run">运行中</span> 硅胶/聚合物色谱填料研发与生产主基地；2021 年园区通稿称拥有「世界规模最大的单分散聚合物色谱填料生产线、世界首个单分散高纯硅胶色谱填料大规模生产线」；2026 年半年度报告：与常熟合计<b>超 5 万㎡</b></td>
+        </tr>
+        <tr>
+          <td class="fac">常熟基地<br><span class="src">（常熟纳微）</span></td>
+          <td>常熟新材料产业园</td>
+          <td class="num">约 1.8 万㎡（2021）<br>用地 55 亩</td>
+          <td><span class="pill p-run">运行中</span> 软胶层析介质基地；2021 投产 → 2023 技改投产（50 吨/年）→ 2024 正式生产 → 2026 配套扩建（15 亩，仓储/废水处理，预计年中开工）</td>
+        </tr>
+        <tr>
+          <td class="fac">南通如东基地<br><span class="src">（南通纳微，2024-12 成立）</span></td>
+          <td>江苏南通如东县洋口化学工业园（东区）</td>
+          <td class="num">用地约 140–143 亩<br>（常熟的约 2.5 倍）</td>
+          <td><span class="pill p-build">建设中</span> 总投资 6.58 亿元（定增拟投 5 亿）；2026 H1 开工，建设期 36 个月，预计 2028 年建成投产；未来公司主要产能落地南通</td>
+        </tr>
+        <tr>
+          <td class="fac">南通洋口港化工中试生产基地</td>
+          <td>南通洋口港（如东）</td>
+          <td class="na">未披露</td>
+          <td><span class="pill p-build">中试运行</span> 已开园运营；多肽固相合成载体、碳微球两个放大项目入驻；2026 H1 多肽固相合成载体项目进入试生产（中试定位，非商业化大产能）</td>
+        </tr>
+        <tr>
+          <td class="fac">浙江平湖基地<br><span class="src">（浙江纳微）</span></td>
+          <td>浙江平湖</td>
+          <td class="na">未披露</td>
+          <td><span class="pill p-tbd">状态待核实</span> 2022 可转债方案「年产 600 吨生物层析介质 + 2 吨手性药物分离纯化」拟建项目；方案调整后未再作为产能来源披露</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="src" style="margin-top:8px">非填料生产主体（避免混淆）：赛谱仪器（苏州，蛋白层析系统）、福立仪器（浙江，色谱分析仪器）、纳谱分析（苏州，色谱柱耗材）、纳信科技（苏州，耐溶剂膜）、印度纳微/美国纳微/RILAS（海外销售服务，非生产）。</div>
+  </div>
+
+  <!-- 七、反推与缺口 -->
+  <div class="card">
+    <h2>七、⚠️ 销售额反推参考值与数据缺口</h2>
+    <table>
+      <thead><tr><th>年份</th><th>填料/介质收入（定期报告口径）</th><th>销量（定期报告口径）</th><th>⚠️ 反推 ASP（元/升）</th></tr></thead>
+      <tbody>
+        <tr><td>2023</td><td class="num">40,887.02 万元</td><td class="num">68,732.11 升</td><td class="num warn">≈ 5,949</td></tr>
+        <tr><td>2024</td><td class="num">45,058.28 万元</td><td class="num">96,616.95 升</td><td class="num warn">≈ 4,663</td></tr>
+        <tr><td>2025</td><td class="num">55,200 万元</td><td class="num">121,568.55 升</td><td class="num warn">≈ 4,542</td></tr>
+        <tr><td>2026 H1</td><td class="num">37,376.51 万元</td><td class="num na">未披露（H1 无产销量表）</td><td class="num na">无法计算</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><b>⚠️ 推导情景：</b>若 2026 年填料收入 +20%/+30%（ASP 维持 ≈4,542 元/升），需销量约 <b>14.6–15.8 万升</b>；若按 H1 增速外推全年收入约 7.48 亿，对应约 <b>16.5 万升</b>——逼近 2025 年产量（17.51 万升）。与公司「现有产能可支撑现阶段增长」的表态及 2025 年产量 +58.5%（期末库存 16.68 万升，+41%）的行为相互印证。<b>均为推导判断，非公司披露。</b></div>
+    <div style="height:10px"></div>
+    <table>
+      <thead><tr><th style="width:340px">数据缺口 / 待核实事项</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td>2023–2025 年设计产能绝对值与年度产能利用率</td><td><b>公司未披露</b>，仅有合并口径产销量</td></tr>
+        <tr><td>常熟 125,000 升疫苗纯化用微球项目</td><td>2023-01 问询函回复为「拟建」，此后未再披露，<b>待核实</b></td></tr>
+        <tr><td>浙江平湖 600 吨 + 2 吨项目</td><td>可转债方案调整后未再披露，<b>待核实</b></td></tr>
+        <tr><td>南通 662.5 吨 vs 808 吨口径差异</td><td>均来自政府公示；以环评报告书正文表 3.1.2-1 为准</td></tr>
+        <tr><td>2026 全年产销量与收入</td><td>待 2027-04 年报披露</td></tr>
+        <tr><td>2026 年定增注册结果</td><td>2026-09-21 获上交所受理，尚需审核 + 证监会注册</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 来源 -->
+  <div class="card">
+    <h2>官方来源清单</h2>
+    <ol class="src-list">
+      <li>《发行人及保荐机构关于审核问询函的回复报告》（2023-01-16，工厂级产能表：纳微科技现有 122,800 升；常熟纳微在建 40 吨+10 吨、拟建 125,000 升；浙江纳微拟建 600 吨+2 吨）<a href="https://pdf.dfcfw.com/pdf/H2_AN202301151582022363_1.pdf" target="_blank">PDF</a></li>
+      <li>《2021 年年度报告》（2022-03-11）<a href="https://pdf.dfcfw.com/pdf/H2_AN202203101551783989_1.pdf" target="_blank">PDF</a>｜《2022 年年度报告》（2023-04-26）<a href="https://stockn.xueqiu.com/SH688690/20230425067068.pdf" target="_blank">PDF</a>｜《2023 年年度报告》（2024-04-25）<a href="https://static.cninfo.com.cn/finalpage/2024-04-25/1219794676.PDF" target="_blank">PDF</a></li>
+      <li>《2024 年年度报告》（2025-04-24）<a href="https://pdf.dfcfw.com/pdf/H2_AN202504241661689824_1.pdf" target="_blank">PDF</a>｜《2025 年年度报告》（2026-04-16）<a href="https://pdf.dfcfw.com/pdf/H2_AN202604151821241213_1.pdf" target="_blank">PDF</a>｜《2026 年半年度报告》（2026-08-27）<a href="https://pdf.dfcfw.com/pdf/H2_AN202608261828484080_1.pdf" target="_blank">PDF</a></li>
+      <li>《向不特定对象发行可转换公司债券募集说明书（申报稿）（修订稿）》（2023-02）<a href="https://cfi.cn/p20230203003273.html" target="_blank">链接</a>；2022 年度财务数据更新版（2023-05）<a href="https://cfi.cn/p20230512003486.html" target="_blank">链接</a></li>
+      <li>《向特定对象发行股票募集说明书（申报稿）》（2026-09-21 获上交所受理；南通项目总投资 65,776.60 万元、建设期 36 个月、税后 IRR 22.46%）<a href="https://pdf.dfcfw.com/pdf/H2_AN202609211829727021_1.pdf" target="_blank">PDF</a></li>
+      <li>南通纳微项目环评第一次公示（808 吨/年装置明细）<a href="https://www.rudong.gov.cn/ykgjjkfq/gggs/content/aa6982fb-aec0-49d7-a199-fa1dccbfb4da.html" target="_blank">链接</a>；环评报告书征求意见稿公示<a href="https://www.eiacloud.com/gs/detail/1?id=60109qO4Pf" target="_blank">链接</a>；南通市数据局拟批准公示（662.5 吨/年）<a href="https://shuju.nantong.gov.cn/ntsxzspj/sphjgs/content/91439de4-a40d-47f5-a8b5-296809018494.html" target="_blank">链接</a></li>
+      <li>《前次募集资金使用情况报告》（2026-04，常熟技改 2023 年投产、累计产能利用率 46.23%）<a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?id=12093317&stockid=688690" target="_blank">链接</a></li>
+      <li>《2025 年度「提质增效重回报」行动方案…暨 2026 年度行动方案》（2026-04）<a href="https://vip.stock.finance.sina.com.cn/corp/view/vCB_AllBulletinDetail.php?CompanyCode=81238089&id=12094230" target="_blank">链接</a>｜投资者关系活动记录表（2026-04）<a href="http://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-4/2026-04-20/12115798.PDF" target="_blank">PDF</a> <a href="https://www.cnfin.com/announ/detail/index.html?dannoun=stibdetail&id=841264554153" target="_blank">链接</a></li>
+      <li>苏州工业园区官方通稿 / 苏州市科技局（2021-06，苏州基地 13,000 ㎡、常熟 1.8 万㎡）<a href="https://kjj.suzhou.gov.cn/szkj/sxdt/202106/dbe0710fbb1243cba27e99382a3c5dfe.shtml" target="_blank">链接</a></li>
+    </ol>
+    <div class="foot" style="margin-top:10px">说明：本报告为公开信息整理，不构成投资建议。⚠️ 标注处为推导或待核实内容；券商/媒体口径未作为产能依据采信。</div>
+  </div>
+
+</div>
+
+<script>
+echarts.init(document.getElementById('chart1')).setOption({
+  tooltip: { trigger: 'axis' },
+  legend: { data: ['生产量', '销售量', '期末库存量'] },
+  grid: { left: 60, right: 20, top: 40, bottom: 30 },
+  xAxis: { type: 'category', data: ['2021', '2022', '2023', '2024', '2025'] },
+  yAxis: [
+    { type: 'value', name: '生产/销售量(升)' },
+    { type: 'value', name: '期末库存量(升)' }
+  ],
+  series: [
+    { name: '生产量', type: 'bar', data: [69149.33, 101111.57, 109114.35, 110526.86, 175132.38], itemStyle: { color: '#1a5276' } },
+    { name: '销售量', type: 'bar', data: [41309.83, 78148.26, 68732.11, 96616.95, 121568.55], itemStyle: { color: '#5dade2' } },
+    { name: '期末库存量', type: 'line', yAxisIndex: 1, data: [52906.69, 74018.78, 109991.58, 118272.81, 166820.24], itemStyle: { color: '#c0392b' }, lineStyle: { width: 2.5 } }
+  ]
+});
+echarts.init(document.getElementById('chart2')).setOption({
+  tooltip: { trigger: 'axis', valueFormatter: function (v) { return v.toLocaleString() + ' 万元'; } },
+  legend: { data: ['销售额(全年)', '销售额(2026H1)'] },
+  grid: { left: 70, right: 20, top: 40, bottom: 30 },
+  xAxis: { type: 'category', data: ['2021', '2022', '2023', '2024', '2025', '2026H1'] },
+  yAxis: { type: 'value', name: '销售额(万元)' },
+  series: [
+    { name: '销售额(全年)', type: 'bar', data: [34873.36, 45189.60, 40887.02, 45058.28, 55200, null], itemStyle: { color: '#1a5276' } },
+    { name: '销售额(2026H1)', type: 'bar', data: [null, null, null, null, null, 37376.51], itemStyle: { color: '#e67e22' } }
+  ]
+});
+</script>
+<script>
+(function () {
+  var KEY = 'cl2026';
+  var SK = 'nanomicro_report_unlocked';
+  var gate = document.getElementById('gate');
+  var input = document.getElementById('gate-pwd');
+  var err = document.getElementById('gate-err');
+  function unlock() {
+    gate.style.display = 'none';
+    try { sessionStorage.setItem(SK, '1'); } catch (e) {}
+  }
+  function lock() {
+    gate.style.display = 'flex';
+    try { sessionStorage.removeItem(SK); } catch (e) {}
+    input.value = '';
+    err.style.display = 'none';
+    input.focus();
+  }
+  function check() {
+    if (input.value === KEY) { unlock(); }
+    else { err.style.display = 'block'; input.value = ''; input.focus(); }
+  }
+  document.getElementById('gate-btn').addEventListener('click', check);
+  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') { check(); } });
+  var lockBtn = document.getElementById('lock-btn');
+  if (lockBtn) { lockBtn.addEventListener('click', lock); }
+  var ok = false;
+  try { ok = sessionStorage.getItem(SK) === '1'; } catch (e) {}
+  if (ok) { unlock(); } else { input.focus(); }
+})();
+</script>
+</body>
+</html>
